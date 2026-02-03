@@ -5,7 +5,7 @@ This portfolio project models **repeat purchasing, customer value, and commercia
 - **Wholesalers → Taverns (on-trade) / Retailers (off-trade)**
 - Product mix (beer / cider / spirits / RTDs)
 - Weekend spikes, seasonality, promotions, and supply constraints
-- A practical **Purchase Frequency + CLTV** workflow recruiters can scan quickly
+- A practical **Purchase Frequency + CLTV** workflow.
 
 > **Note:** The dataset is **synthetic** (no real customer data). It is designed to look and behave like real commercial sales data.
 
@@ -86,16 +86,7 @@ python scripts/03_generate_report.py
 The generator writes a dictionary to:
 - `docs/data_dictionary.json`
 
----
 
-## Portfolio framing (copy/paste for your site)
-
-**Project name:** Alcohol Retail & Tavern Performance Intelligence (Purchase Frequency + CLTV)  
-**Description:** Built a synthetic route-to-market dataset to analyse purchase frequency, outlet KPIs, and CLTV segments for taverns, retailers, and wholesalers. Produced an automated Markdown insight report with business-ready visuals.  
-**Skills:** Python, Pandas, Data Cleaning, EDA, KPI Design, Segmentation, CLTV, Data Storytelling, Matplotlib  
-**Links:** GitHub repo + report screenshots
-
----
 
 ## Author
-Kabelo (portfolio project)
+Kabelo M (portfolio project)
