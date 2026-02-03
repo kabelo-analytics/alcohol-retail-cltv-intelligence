@@ -1,5 +1,5 @@
 -- Example star schema for BI / analytics
--- (Optional: useful for showing you can think in SQL + dimensional modelling)
+-- (Optional: useful for showing thinkin in SQL + dimensional modelling)
 
 CREATE TABLE dim_outlet (
   outlet_id TEXT PRIMARY KEY,
