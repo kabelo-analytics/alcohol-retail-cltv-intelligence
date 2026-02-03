@@ -1,0 +1,19 @@
+{
+  "transactions_raw.csv": {
+    "transaction_id": "Unique transaction line identifier.",
+    "transaction_date": "ISO date of the transaction.",
+    "outlet_id": "Unique outlet identifier.",
+    "outlet_type": "Outlet type: Tavern, Liquor Store, Supermarket, Bottle Store.",
+    "province": "South African province (synthetic assignment).",
+    "city": "City / township / area (synthetic assignment).",
+    "wholesaler_region": "Distribution hub region serving the outlet.",
+    "product_category": "Beer, Cider, Spirits, RTD.",
+    "brand": "Synthetic mix of global/local style brands within category.",
+    "pack_size": "Pack size label for pricing scaling.",
+    "quantity_units": "Number of units purchased (line quantity).",
+    "unit_price_zar": "Unit price (ZAR).",
+    "promotion_type": "None / Price Promo / Bundle / POS Display.",
+    "discount_pct": "Discount applied (0\u20130.15).",
+    "net_revenue_zar": "Net revenue after discount."
+  }
+}
