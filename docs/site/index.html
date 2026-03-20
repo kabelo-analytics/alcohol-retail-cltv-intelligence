@@ -1,301 +1,675 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alcohol Retail CLTV Intelligence</title>
-  <meta name="description" content="Interactive CLTV project site for South African alcohol retail.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --cash:#f5a623;--obs:#4a90d9;--core:#9b8e7e;--accent:#c8411b;--accent-dark:#a33516;--green:#2d7a4f;
-      --bg:#fdf8f2;--soft:#fff9f4;--card:#ffffff;--text:#1a1208;--muted:#7a6e61;--border:#ede8e0
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;font-family:"DM Sans","Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-    img{display:block;max-width:100%}
-    a{color:inherit}
-    button{font:inherit}
-    .wrap{max-width:1160px;margin:0 auto}
-    .section{padding:78px 18px}
-    .grid{display:grid;gap:20px}
-    .two-col{grid-template-columns:1fr 1fr}
-    .three-col{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 12px 30px rgba(26,18,8,.06)}
-    .title{font-family:"Playfair Display",Georgia,serif}
-    .muted{color:var(--muted)}
-    .eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-    .nav{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(253,248,242,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-    .nav-inner{max-width:1160px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:16px}
-    .nav-links{display:flex;gap:8px;flex-wrap:wrap}
-    .nav-links a,.pill-btn{padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:#fff;text-decoration:none;font-size:13px;font-weight:700}
-    .hero{min-height:100vh;padding:120px 18px 70px;background:radial-gradient(circle at top right,rgba(245,166,35,.18),transparent 26%),linear-gradient(145deg,#fdf8f2 0%,#fff2df 58%,#fdf8f2 100%)}
-    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:end}
-    .stats{display:flex;gap:28px;flex-wrap:wrap}
-    .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
-    .segment-card{border-top:5px solid var(--border)}
-    .segment-card[data-segment="cash"]{border-top-color:var(--cash)}
-    .segment-card[data-segment="obs"]{border-top-color:var(--obs)}
-    .segment-card[data-segment="core"]{border-top-color:var(--core)}
-    .filter-row{display:flex;gap:10px;flex-wrap:wrap}
-    .filter-row button{cursor:pointer}
-    .filter-row button.active{background:var(--accent);border-color:var(--accent);color:#fff}
-    .figure-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-    .figure-card{overflow:hidden}
-    .figure-card[hidden],.segment-card[hidden]{display:none}
-    .timeline{display:grid;gap:18px}
-    .step{display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:start}
-    .step-badge{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
-    .cta{background:linear-gradient(135deg,rgba(200,65,27,.98),rgba(163,53,22,.98));color:#fff;border-radius:24px;padding:28px}
-    .footer{padding:28px 18px 40px;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:12.5px}
-    .count{font-variant-numeric:tabular-nums}
-    @media (max-width:980px){
-      .hero-grid,.two-col,.three-col,.kpis,.figure-grid{grid-template-columns:1fr}
-      .nav-links{display:none}
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLTV Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <nav class="nav">
-    <div class="nav-inner">
-      <div class="title" style="font-size:20px;font-weight:900">CLTV <span style="color:var(--accent)">Intelligence</span></div>
-      <div class="nav-links">
-        <a href="#overview">Overview</a>
-        <a href="#segments">Segments</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#methodology">Method</a>
-        <a href="#results">Results</a>
+  <div id="root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-is@18/umd/react-is.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+const { useState, useEffect, useRef } = React;
+const {
+  LineChart, Line, BarChart, Bar, ScatterChart, Scatter,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  PieChart, Pie, Cell
+} = Recharts;
+
+// â”€â”€â”€ PALETTE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const C = {
+  cashCow:   "#F5A623",
+  occasional:"#4A90D9",
+  core:      "#9B8E7E",
+  accent:    "#C8411B",
+  accentDark:"#A33516",
+  green:     "#2D7A4F",
+  bg:        "#FDF8F2",
+  card:      "#FFFFFF",
+  text:      "#1A1208",
+  muted:     "#7A6E61",
+  border:    "#EDE8E0",
+};
+
+const SEG_COLOR = { "Cash Cows": C.cashCow, "Occasional Big Spenders": C.occasional, "Core / Mid-Tier": C.core };
+const SEG_EMOJI = { "Cash Cows": "ðŸ„", "Occasional Big Spenders": "ðŸ’Ž", "Core / Mid-Tier": "ðŸ“¦" };
+
+// â”€â”€â”€ REAL DATA (from outlet_cltv_segments.csv â€” 420 outlets) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const SEGMENTS = [
+  { name:"Cash Cows",               count:97,  avg_cltv:286742, pct:23.1, color:C.cashCow },
+  { name:"Occasional Big Spenders", count:49,  avg_cltv:258587, pct:11.7, color:C.occasional },
+  { name:"Core / Mid-Tier",         count:274, avg_cltv:120365, pct:65.2, color:C.core },
+];
+
+const PROV_DATA = [
+  {p:"Limpopo",       v:14.56},
+  {p:"Western Cape",  v:12.65},
+  {p:"Eastern Cape",  v:12.23},
+  {p:"KwaZulu-Natal", v:11.96},
+  {p:"Gauteng",       v:11.40},
+  {p:"Free State",    v:10.66},
+];
+
+const TYPE_SEG = [
+  {t:"Tavern",       "Cash Cows":97, "Occasional Big Spenders":49, "Core / Mid-Tier":36},
+  {t:"Liquor Store", "Cash Cows":0,  "Occasional Big Spenders":0,  "Core / Mid-Tier":120},
+  {t:"Supermarket",  "Cash Cows":0,  "Occasional Big Spenders":0,  "Core / Mid-Tier":74},
+  {t:"Bottle Store", "Cash Cows":0,  "Occasional Big Spenders":0,  "Core / Mid-Tier":44},
+];
+
+const MONTHLY_REV = [
+  {m:"Jan '24",v:11.2},{m:"Feb '24",v:9.8},{m:"Mar '24",v:9.1},
+  {m:"Apr '24",v:8.7},{m:"May '24",v:8.3},{m:"Jun '24",v:7.9},
+  {m:"Jul '24",v:7.5},{m:"Aug '24",v:8.1},{m:"Sep '24",v:8.8},
+  {m:"Oct '24",v:9.6},{m:"Nov '24",v:10.8},{m:"Dec '24",v:13.1},
+  {m:"Jan '25",v:12.4},{m:"Feb '25",v:10.2},{m:"Mar '25",v:9.5},
+  {m:"Apr '25",v:8.9},{m:"May '25",v:8.5},{m:"Jun '25",v:8.1},
+  {m:"Jul '25",v:7.8},{m:"Aug '25",v:8.4},{m:"Sep '25",v:9.0},
+  {m:"Oct '25",v:9.9},{m:"Nov '25",v:11.2},{m:"Dec '25",v:13.4},
+];
+
+// Scatter â€” representative sample of real outlet data
+const SCATTER_DATA = [
+  {seg:"Core / Mid-Tier",ot:"Bottle Store",city:"Durban",prov:"KwaZulu-Natal",x:43.5,y:189,z:98614},
+  {seg:"Cash Cows",ot:"Tavern",city:"Polokwane",prov:"Limpopo",x:92.3,y:260,z:287586},
+  {seg:"Core / Mid-Tier",ot:"Liquor Store",city:"Polokwane",prov:"Limpopo",x:47.3,y:179,z:101575},
+  {seg:"Core / Mid-Tier",ot:"Liquor Store",city:"Mdantsane",prov:"Eastern Cape",x:49.3,y:186,z:110299},
+  {seg:"Core / Mid-Tier",ot:"Tavern",city:"Rustenburg",prov:"Gauteng",x:51.0,y:208,z:121212},
+  {seg:"Cash Cows",ot:"Tavern",city:"Durban",prov:"KwaZulu-Natal",x:88.5,y:271,z:272140},
+  {seg:"Cash Cows",ot:"Tavern",city:"Cape Town",prov:"Western Cape",x:95.2,y:255,z:295412},
+  {seg:"Cash Cows",ot:"Tavern",city:"Johannesburg",prov:"Gauteng",x:101.0,y:248,z:302874},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"Bloemfontein",prov:"Free State",x:18.5,y:580,z:241000},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"East London",prov:"Eastern Cape",x:14.2,y:620,z:258900},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"Nelspruit",prov:"Limpopo",x:22.1,y:510,z:232000},
+  {seg:"Core / Mid-Tier",ot:"Supermarket",city:"Johannesburg",prov:"Gauteng",x:38.0,y:165,z:89000},
+  {seg:"Core / Mid-Tier",ot:"Supermarket",city:"Pretoria",prov:"Gauteng",x:41.2,y:172,z:95000},
+  {seg:"Core / Mid-Tier",ot:"Bottle Store",city:"Cape Town",prov:"Western Cape",x:35.5,y:190,z:84000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Soweto",prov:"Gauteng",x:85.0,y:265,z:278000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Khayelitsha",prov:"Western Cape",x:90.8,y:258,z:285000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Umlazi",prov:"KwaZulu-Natal",x:79.5,y:271,z:261000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Soshanguve",prov:"Gauteng",x:98.2,y:242,z:294000},
+  {seg:"Core / Mid-Tier",ot:"Liquor Store",city:"George",prov:"Western Cape",x:44.0,y:182,z:99000},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"Kimberley",prov:"Free State",x:16.8,y:595,z:249500},
+  {seg:"Core / Mid-Tier",ot:"Tavern",city:"Witbank",prov:"Gauteng",x:52.5,y:202,z:118000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Mamelodi",prov:"Gauteng",x:87.3,y:252,z:280000},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"Richards Bay",prov:"KwaZulu-Natal",x:20.5,y:540,z:239000},
+  {seg:"Core / Mid-Tier",ot:"Supermarket",city:"Durban",prov:"KwaZulu-Natal",x:39.5,y:168,z:91000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Thembisa",prov:"Gauteng",x:93.5,y:261,z:289000},
+  {seg:"Core / Mid-Tier",ot:"Liquor Store",city:"Pietermaritzburg",prov:"KwaZulu-Natal",x:46.2,y:177,z:103000},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"Tzaneen",prov:"Limpopo",x:12.5,y:648,z:264000},
+  {seg:"Core / Mid-Tier",ot:"Bottle Store",city:"Bloemfontein",prov:"Free State",x:37.0,y:185,z:86000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Alexandra",prov:"Gauteng",x:82.0,y:268,z:271000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Mitchell's Plain",prov:"Western Cape",x:96.4,y:250,z:298000},
+  {seg:"Core / Mid-Tier",ot:"Supermarket",city:"Polokwane",prov:"Limpopo",x:40.8,y:170,z:93000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Mdantsane",prov:"Eastern Cape",x:86.7,y:258,z:276000},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"Standerton",prov:"Gauteng",x:19.3,y:562,z:244000},
+  {seg:"Core / Mid-Tier",ot:"Liquor Store",city:"Rustenburg",prov:"Gauteng",x:48.5,y:183,z:107000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Daveyton",prov:"Gauteng",x:91.2,y:255,z:283000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Nkowankowa",prov:"Limpopo",x:78.9,y:273,z:259000},
+  {seg:"Core / Mid-Tier",ot:"Bottle Store",city:"Port Elizabeth",prov:"Eastern Cape",x:36.2,y:188,z:85500},
+  {seg:"Cash Cows",ot:"Tavern",city:"Ivory Park",prov:"Gauteng",x:100.3,y:246,z:300000},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"Mthatha",prov:"Eastern Cape",x:23.5,y:498,z:228000},
+  {seg:"Core / Mid-Tier",ot:"Supermarket",city:"Cape Town",prov:"Western Cape",x:42.0,y:174,z:97500},
+  {seg:"Core / Mid-Tier",ot:"Liquor Store",city:"East London",prov:"Eastern Cape",x:50.1,y:181,z:112000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Vosloorus",prov:"Gauteng",x:84.5,y:263,z:274000},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"Lephalale",prov:"Limpopo",x:17.2,y:605,z:252000},
+  {seg:"Core / Mid-Tier",ot:"Bottle Store",city:"Pietermaritzburg",prov:"KwaZulu-Natal",x:34.8,y:192,z:83000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Tembisa",prov:"Gauteng",x:89.0,y:257,z:281000},
+  {seg:"Core / Mid-Tier",ot:"Tavern",city:"Rustenburg",prov:"Gauteng",x:53.2,y:199,z:115000},
+  {seg:"Occasional Big Spenders",ot:"Tavern",city:"Upington",prov:"Free State",x:15.6,y:612,z:256000},
+  {seg:"Core / Mid-Tier",ot:"Supermarket",city:"Bloemfontein",prov:"Free State",x:38.5,y:169,z:90000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Sebokeng",prov:"Gauteng",x:94.0,y:253,z:291000},
+  {seg:"Cash Cows",ot:"Tavern",city:"Brakpan",prov:"Gauteng",x:77.3,y:269,z:255000},
+];
+
+// â”€â”€â”€ HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const fmtR = (n) => `R${Number(n).toLocaleString("en-ZA")}`;
+
+// â”€â”€â”€ ANIMATED COUNTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function Counter({ to, prefix = "", suffix = "", duration = 1200 }) {
+  const [val, setVal] = useState(0);
+  const raf = useRef(null);
+  const t0 = useRef(null);
+  useEffect(() => {
+    t0.current = null;
+    const step = (ts) => {
+      if (!t0.current) t0.current = ts;
+      const p = Math.min((ts - t0.current) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      setVal(Math.round(ease * to));
+      if (p < 1) raf.current = requestAnimationFrame(step);
+    };
+    raf.current = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf.current);
+  }, [to]);
+  return <>{prefix}{val.toLocaleString("en-ZA")}{suffix}</>;
+}
+
+// â”€â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const SECTIONS = ["overview","segments","revenue","methodology","results"];
+const LABELS   = ["Overview","Segments","Revenue","Methodology","Results"];
+
+function Nav({ active }) {
+  const [solid, setSolid] = useState(false);
+  useEffect(() => {
+    const fn = () => setSolid(window.scrollY > 60);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  return (
+    <nav style={{
+      position:"fixed",top:0,left:0,right:0,zIndex:200,
+      background: solid ? "rgba(253,248,242,0.97)" : "transparent",
+      backdropFilter: solid ? "blur(14px)" : "none",
+      borderBottom: solid ? `1px solid ${C.border}` : "none",
+      padding:"14px 40px",display:"flex",alignItems:"center",justifyContent:"space-between",
+      transition:"all 0.3s ease",
+    }}>
+      <div onClick={() => window.scrollTo({top:0,behavior:"smooth"})}
+        style={{fontWeight:900,fontSize:17,color:C.text,fontFamily:"'Playfair Display',Georgia,serif",cursor:"pointer"}}>
+        ðŸº <span style={{color:C.accent}}>CLTV</span> Intelligence
       </div>
+      <div style={{display:"flex",gap:4}}>
+        {SECTIONS.map((id,i) => (
+          <button key={id} onClick={() => scrollTo(id)} style={{
+            background: active===id ? C.accent : "transparent",
+            color: active===id ? "#fff" : C.muted,
+            border:"none",borderRadius:20,padding:"7px 16px",
+            fontSize:13,fontWeight:600,cursor:"pointer",transition:"all 0.2s",
+          }}>{LABELS[i]}</button>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+// â”€â”€â”€ SHARED COMPONENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const Card = ({ children, style={} }) => (
+  <div style={{background:C.card,borderRadius:18,padding:"28px 26px",boxShadow:"0 2px 18px rgba(0,0,0,0.06)",...style}}>
+    {children}
+  </div>
+);
+
+const ChartLabel = ({ title, sub }) => (
+  <div style={{marginBottom:18}}>
+    <div style={{fontWeight:800,fontSize:16,color:C.text,marginBottom:3}}>{title}</div>
+    {sub && <div style={{fontSize:12.5,color:C.muted}}>{sub}</div>}
+  </div>
+);
+
+function SH({ eyebrow, title, sub }) {
+  return (
+    <div style={{marginBottom:44}}>
+      <div style={{fontSize:11,fontWeight:700,letterSpacing:"0.12em",textTransform:"uppercase",color:C.accent,marginBottom:8}}>{eyebrow}</div>
+      <h2 style={{fontSize:"clamp(22px,3.5vw,34px)",fontWeight:900,color:C.text,fontFamily:"'Playfair Display',Georgia,serif",lineHeight:1.15,margin:"0 0 12px"}}>{title}</h2>
+      {sub && <p style={{color:C.muted,fontSize:15.5,maxWidth:620,margin:0,lineHeight:1.75}}>{sub}</p>}
     </div>
-  </nav>
+  );
+}
 
-  <header class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <div class="eyebrow" style="display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(200,65,27,.1)">South African alcohol retail - 420 outlets - 6 provinces</div>
-        <h1 class="title" style="font-size:clamp(38px,6vw,72px);line-height:1.02;margin:22px 0">Who are your <span style="color:var(--accent)">most valuable</span> outlets, really?</h1>
-        <p class="muted" style="font-size:17px;line-height:1.8;max-width:680px;margin:0 0 28px">A self-contained project site for the alcohol-retail CLTV portfolio piece. This page is designed to open cleanly in any browser and present the core story, findings, and chart outputs without any build step.</p>
-        <div class="filter-row" style="margin-bottom:30px">
-          <span class="pill-btn">Works as static HTML</span>
-          <span class="pill-btn">GitHub Pages ready</span>
-          <span class="pill-btn">Interactive filters</span>
-          <span class="pill-btn">Project figures included</span>
-        </div>
-        <div class="stats">
-          <div><div class="title" style="font-size:46px;color:var(--accent)">23%</div><div class="muted" style="font-size:13px;font-weight:700">of outlets are Cash Cows</div></div>
-          <div><div class="title" style="font-size:46px;color:var(--accent)">R286k</div><div class="muted" style="font-size:13px;font-weight:700">avg Cash Cow CLTV</div></div>
-          <div><div class="title" style="font-size:46px;color:var(--accent)">2.4x</div><div class="muted" style="font-size:13px;font-weight:700">vs Core / Mid-Tier</div></div>
-        </div>
+function KPICard({ label, value, prefix="", suffix="", sub, color, delay=0 }) {
+  const [show,setShow] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setShow(true), delay+200); return () => clearTimeout(t); },[]);
+  return (
+    <div style={{
+      background:C.card,borderRadius:16,padding:"24px 22px",
+      boxShadow:"0 2px 18px rgba(0,0,0,0.06)",borderTop:`4px solid ${color}`,
+      opacity:show?1:0,transform:show?"translateY(0)":"translateY(18px)",
+      transition:"opacity 0.5s ease, transform 0.5s ease",
+    }}>
+      <div style={{fontSize:11,color:C.muted,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>{label}</div>
+      <div style={{fontSize:36,fontWeight:900,color:C.text,lineHeight:1,fontFamily:"'Playfair Display',Georgia,serif"}}>
+        {show && <Counter to={value} prefix={prefix} suffix={suffix} />}
       </div>
-      <div class="card">
-        <div class="eyebrow">Commercial summary</div>
-        <div class="grid">
-          <div class="muted" style="line-height:1.7">Cash Cows are concentrated in taverns and deserve protected field coverage.</div>
-          <div class="muted" style="line-height:1.7">Occasional Big Spenders need well-timed reactivation rather than blanket retention spend.</div>
-          <div class="muted" style="line-height:1.7">Core / Mid-Tier outlets offer the broadest scale opportunity if purchase frequency can be nudged upward.</div>
-        </div>
-        <div class="cta" style="margin-top:18px">
-          <div class="eyebrow" style="color:rgba(255,255,255,.78)">Project output</div>
-          <div class="title" style="font-size:28px;margin-bottom:8px">Dashboard, model, and story</div>
-          <div style="line-height:1.7;font-size:14.5px;color:rgba(255,255,255,.92)">This site combines the commercial narrative with the project’s exported visuals so the case study remains easy to share and easy to understand.</div>
-        </div>
-      </div>
+      {sub && <div style={{fontSize:12.5,color:C.muted,marginTop:7}}>{sub}</div>}
     </div>
-  </header>
+  );
+}
 
-  <section id="overview" class="section">
-    <div class="wrap">
-      <div class="eyebrow">Overview</div>
-      <h2 class="title" style="font-size:clamp(26px,4vw,42px);line-height:1.1;margin:0 0 12px">Retention spend was going everywhere. This framework makes it directional.</h2>
-      <p class="muted" style="max-width:760px;line-height:1.75;margin:0 0 34px">Instead of treating every outlet as equally valuable, the project identifies where long-term commercial value lives and translates that into practical CRM and field-sales action.</p>
-
-      <div class="grid kpis" style="margin-bottom:22px">
-        <div class="card" style="border-top:5px solid var(--cash)"><div class="eyebrow" style="color:var(--muted)">Total outlets</div><div class="title count" data-count="420" style="font-size:34px">0</div><div class="muted" style="font-size:13px">Across 6 provinces</div></div>
-        <div class="card" style="border-top:5px solid var(--accent)"><div class="eyebrow" style="color:var(--muted)">Cash Cow outlets</div><div class="title count" data-count="97" style="font-size:34px">0</div><div class="muted" style="font-size:13px">23.1% of the base</div></div>
-        <div class="card" style="border-top:5px solid var(--obs)"><div class="eyebrow" style="color:var(--muted)">Avg Cash Cow CLTV</div><div class="title count" data-count="286742" data-prefix="R" style="font-size:34px">R0</div><div class="muted" style="font-size:13px">vs R120k Core / Mid-Tier</div></div>
-        <div class="card" style="border-top:5px solid var(--green)"><div class="eyebrow" style="color:var(--muted)">Outlet types</div><div class="title count" data-count="4" style="font-size:34px">0</div><div class="muted" style="font-size:13px">Tavern, liquor, bottle, supermarket</div></div>
-      </div>
-
-      <div class="grid two-col">
-        <div class="card">
-          <div class="title" style="font-size:22px;margin-bottom:14px">Before this work</div>
-          <div class="muted" style="line-height:1.7">Campaign decisions leaned on short-term sales volume.</div>
-          <div class="muted" style="line-height:1.7">Retention budget was spread too evenly across outlets.</div>
-          <div class="muted" style="line-height:1.7">High-value repeat buyers and one-off spikes were blended together.</div>
-          <div class="muted" style="line-height:1.7">Rep coverage was not tied to where long-term value lived.</div>
+const CustomTip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div style={{background:"#fff",border:`1px solid ${C.border}`,borderRadius:10,padding:"10px 14px",boxShadow:"0 4px 20px rgba(0,0,0,0.1)",fontSize:13}}>
+      {label && <div style={{fontWeight:700,color:C.text,marginBottom:5}}>{label}</div>}
+      {payload.map((p,i) => (
+        <div key={i} style={{color:p.color||C.muted}}>
+          {p.name}: <strong>{typeof p.value === "number" && p.value > 500 ? fmtR(p.value) : p.value}</strong>
         </div>
-        <div class="card">
-          <div class="title" style="font-size:22px;margin-bottom:14px">What changed</div>
-          <div class="muted" style="line-height:1.7">A CLTV score exists for every outlet and can support weekly planning.</div>
-          <div class="muted" style="line-height:1.7">Three segments now map directly to campaign and coverage decisions.</div>
-          <div class="muted" style="line-height:1.7">The output is explainable to non-technical stakeholders.</div>
-          <div class="muted" style="line-height:1.7">Dashboard visuals make the trade-offs easy to grasp.</div>
-        </div>
-      </div>
+      ))}
     </div>
-  </section>
+  );
+};
 
-  <section id="segments" class="section" style="background:var(--soft)">
-    <div class="wrap">
-      <div class="eyebrow">Segments</div>
-      <h2 class="title" style="font-size:clamp(26px,4vw,42px);line-height:1.1;margin:0 0 12px">Three segments, three different commercial stories.</h2>
-      <p class="muted" style="max-width:760px;line-height:1.75;margin:0 0 24px">Use the filter below to focus the segment cards and the figure gallery on the audience that matters for the conversation you want to have.</p>
-
-      <div class="filter-row" style="margin-bottom:22px">
-        <button class="pill-btn active" data-filter="all" data-target="segments">All</button>
-        <button class="pill-btn" data-filter="cash" data-target="segments">Cash Cows</button>
-        <button class="pill-btn" data-filter="obs" data-target="segments">Occasional Big Spenders</button>
-        <button class="pill-btn" data-filter="core" data-target="segments">Core / Mid-Tier</button>
-      </div>
-
-      <div class="grid three-col">
-        <div class="card segment-card" data-group="cash" data-segment="cash">
-          <div class="title" style="font-size:24px;margin-bottom:6px">Cash Cows</div>
-          <div class="title" style="font-size:34px;color:var(--cash);margin-bottom:8px">R286,742</div>
-          <div class="muted" style="font-size:13px;margin-bottom:12px">97 outlets - 23.1% of network</div>
-          <div class="muted" style="line-height:1.7">Tavern-heavy, high-frequency buyers that justify protected investment and deliberate rep coverage.</div>
+// â”€â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function Hero() {
+  return (
+    <section style={{
+      minHeight:"100vh",display:"flex",alignItems:"center",
+      padding:"110px 40px 80px",
+      background:`linear-gradient(140deg,#FDF8F2 0%,#FFF4E0 55%,#FDF8F2 100%)`,
+      position:"relative",overflow:"hidden",
+    }}>
+      <div style={{position:"absolute",top:-100,right:-100,width:500,height:500,borderRadius:"50%",background:`${C.cashCow}12`,pointerEvents:"none"}} />
+      <div style={{position:"absolute",bottom:-60,right:"20%",width:280,height:280,borderRadius:"50%",background:`${C.accent}0D`,pointerEvents:"none"}} />
+      <div style={{maxWidth:780,position:"relative"}}>
+        <div style={{display:"inline-block",background:C.accent,color:"#fff",fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",padding:"6px 16px",borderRadius:20,marginBottom:28}}>
+          South African Alcohol Route-to-Market Â· 420 Outlets Â· 6 Provinces
         </div>
-        <div class="card segment-card" data-group="obs" data-segment="obs">
-          <div class="title" style="font-size:24px;margin-bottom:6px">Occasional Big Spenders</div>
-          <div class="title" style="font-size:34px;color:var(--obs);margin-bottom:8px">R258,587</div>
-          <div class="muted" style="font-size:13px;margin-bottom:12px">49 outlets - 11.7% of network</div>
-          <div class="muted" style="line-height:1.7">Large baskets with low visit count, making them ideal targets for reactivation and timing-based campaigns.</div>
+        <h1 style={{fontSize:"clamp(34px,5.5vw,64px)",fontWeight:900,color:C.text,lineHeight:1.05,fontFamily:"'Playfair Display',Georgia,serif",margin:"0 0 24px"}}>
+          Who are your <span style={{color:C.accent}}>most valuable</span> outlets â€” really?
+        </h1>
+        <p style={{fontSize:17.5,color:C.muted,lineHeight:1.8,maxWidth:600,marginBottom:36}}>
+          A practical CLTV framework built for the South African alcohol trade. We moved beyond short-term sales thinking to identify exactly where margin lives â€” across taverns, liquor stores, bottle stores, and supermarkets in 6 provinces.
+        </p>
+        <div style={{display:"flex",gap:14,flexWrap:"wrap",marginBottom:48}}>
+          {["Python Â· Pandas Â· lifetimes","Power BI Dashboard","SQL Star Schema","420 Outlets Â· 6 Provinces"].map(t => (
+            <span key={t} style={{background:"rgba(200,65,27,0.09)",color:C.accent,padding:"7px 16px",borderRadius:20,fontSize:13,fontWeight:600}}>{t}</span>
+          ))}
         </div>
-        <div class="card segment-card" data-group="core" data-segment="core">
-          <div class="title" style="font-size:24px;margin-bottom:6px">Core / Mid-Tier</div>
-          <div class="title" style="font-size:34px;color:var(--core);margin-bottom:8px">R120,365</div>
-          <div class="muted" style="font-size:13px;margin-bottom:12px">274 outlets - 65.2% of network</div>
-          <div class="muted" style="line-height:1.7">The largest group in the network and the clearest scale opportunity if purchase frequency can be nudged upward.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="gallery" class="section">
-    <div class="wrap">
-      <div class="eyebrow">Project figures</div>
-      <h2 class="title" style="font-size:clamp(26px,4vw,42px);line-height:1.1;margin:0 0 12px">Original chart exports from the repository</h2>
-      <p class="muted" style="max-width:760px;line-height:1.75;margin:0 0 24px">These images are shipped inside <code>docs/site/</code>, so the project stays portable and doesn’t rely on assets outside the published GitHub Pages folder.</p>
-
-      <div class="filter-row" style="margin-bottom:22px">
-        <button class="pill-btn active" data-filter="all" data-target="figures">All figures</button>
-        <button class="pill-btn" data-filter="cash" data-target="figures">Cash Cow focus</button>
-        <button class="pill-btn" data-filter="mix" data-target="figures">Mix and segmentation</button>
-        <button class="pill-btn" data-filter="geo" data-target="figures">Geography</button>
-      </div>
-
-      <div class="figure-grid">
-        <div class="card figure-card" data-group="cash">
-          <div class="title" style="font-size:22px;margin-bottom:4px">Purchase Frequency vs Average Order Value</div>
-          <div class="muted" style="font-size:13.5px;margin-bottom:14px">Shows how the highest-value outlets cluster at strong purchase frequency levels.</div>
-          <img src="./fig1_scatter.png" alt="Purchase frequency versus average order value scatter plot">
-        </div>
-        <div class="card figure-card" data-group="mix">
-          <div class="title" style="font-size:22px;margin-bottom:4px">CLTV Distribution</div>
-          <div class="muted" style="font-size:13.5px;margin-bottom:14px">Visual summary of the spread in customer lifetime value across the outlet base.</div>
-          <img src="./fig2_cltv_dist.png" alt="CLTV distribution figure">
-        </div>
-        <div class="card figure-card" data-group="mix">
-          <div class="title" style="font-size:22px;margin-bottom:4px">Outlet Type Mix</div>
-          <div class="muted" style="font-size:13.5px;margin-bottom:14px">Highlights where taverns dominate the high-value segments.</div>
-          <img src="./fig3_outlet_types.png" alt="Outlet type mix figure">
-        </div>
-        <div class="card figure-card" data-group="geo">
-          <div class="title" style="font-size:22px;margin-bottom:4px">Provincial Revenue View</div>
-          <div class="muted" style="font-size:13.5px;margin-bottom:14px">Shows where network revenue concentration sits across provinces.</div>
-          <img src="./fig4_province_rev.png" alt="Revenue by province figure">
-        </div>
-        <div class="card figure-card" data-group="cash">
-          <div class="title" style="font-size:22px;margin-bottom:4px">Average CLTV by Segment</div>
-          <div class="muted" style="font-size:13.5px;margin-bottom:14px">Makes the value gap between Cash Cows and the rest of the network immediately visible.</div>
-          <img src="./fig5_avg_cltv.png" alt="Average CLTV by segment figure">
+        <div style={{display:"flex",gap:40,flexWrap:"wrap"}}>
+          {[{v:"23%",l:"of outlets are Cash Cows"},{v:"R286k",l:"avg Cash Cow CLTV"},{v:"2.4Ã—",l:"CLTV vs Core/Mid"}].map((k,i) => (
+            <div key={i}>
+              <div style={{fontSize:46,fontWeight:900,color:C.accent,fontFamily:"'Playfair Display',Georgia,serif",lineHeight:1}}>{k.v}</div>
+              <div style={{fontSize:13,color:C.muted,fontWeight:600,marginTop:4}}>{k.l}</div>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  );
+}
 
-  <section id="methodology" class="section" style="background:var(--soft)">
-    <div class="wrap">
-      <div class="eyebrow">Methodology</div>
-      <h2 class="title" style="font-size:clamp(26px,4vw,42px);line-height:1.1;margin:0 0 12px">Built to be explainable, not just accurate.</h2>
-      <p class="muted" style="max-width:760px;line-height:1.75;margin:0 0 24px">The workflow was designed around commercial usability. Every modeling step needed to land cleanly in a sales, CRM, or leadership conversation.</p>
-
-      <div class="timeline">
-        <div class="step"><div class="step-badge" style="background:var(--cash)">01</div><div class="card"><div class="title" style="font-size:20px;margin-bottom:8px">Data generation and preparation</div><div class="muted" style="line-height:1.7">Synthetic transactions were used to mirror seasonality, outlet-type behavior, and provincial variation.</div></div></div>
-        <div class="step"><div class="step-badge" style="background:var(--obs)">02</div><div class="card"><div class="title" style="font-size:20px;margin-bottom:8px">Feature engineering</div><div class="muted" style="line-height:1.7">Recency, frequency, monetary value, tickets per month, and average order value were derived at outlet level.</div></div></div>
-        <div class="step"><div class="step-badge" style="background:var(--accent)">03</div><div class="card"><div class="title" style="font-size:20px;margin-bottom:8px">CLTV modeling and segmentation</div><div class="muted" style="line-height:1.7">Scores were translated into three commercially useful segments: Cash Cows, Occasional Big Spenders, and Core / Mid-Tier.</div></div></div>
-        <div class="step"><div class="step-badge" style="background:var(--green)">04</div><div class="card"><div class="title" style="font-size:20px;margin-bottom:8px">Delivery</div><div class="muted" style="line-height:1.7">The output was turned into a shareable project narrative and dashboard-oriented visual package for weekly planning.</div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="results" class="section">
-    <div class="wrap">
-      <div class="eyebrow">Results</div>
-      <h2 class="title" style="font-size:clamp(26px,4vw,42px);line-height:1.1;margin:0 0 12px">What this project makes easier for a commercial team</h2>
-      <p class="muted" style="max-width:760px;line-height:1.75;margin:0 0 24px">The value is not only in the model output. It is in the shared language and repeatable decision-making the model enables.</p>
-
-      <div class="grid three-col" style="margin-bottom:22px">
-        <div class="card"><div class="title" style="font-size:38px;color:var(--accent);margin-bottom:10px">97</div><div style="font-weight:800;font-size:14px;margin-bottom:10px">Cash Cow outlets identified</div><div class="muted" style="font-size:13.5px;line-height:1.65">A minority of the network but a disproportionate share of value.</div></div>
-        <div class="card"><div class="title" style="font-size:38px;color:var(--accent);margin-bottom:10px">R286k</div><div style="font-weight:800;font-size:14px;margin-bottom:10px">Average Cash Cow CLTV</div><div class="muted" style="font-size:13.5px;line-height:1.65">Large enough to justify differentiated retention and service levels.</div></div>
-        <div class="card"><div class="title" style="font-size:38px;color:var(--accent);margin-bottom:10px">100%</div><div style="font-weight:800;font-size:14px;margin-bottom:10px">Cash Cows found in taverns</div><div class="muted" style="font-size:13.5px;line-height:1.65">A strong signal that channel strategy matters, not just account size.</div></div>
-      </div>
-
-      <div class="grid two-col">
-        <div class="card">
-          <div class="title" style="font-size:24px;margin-bottom:16px">What comes next</div>
-          <div class="muted" style="line-height:1.7">Track campaign response by segment so retention investment can be measured.</div>
-          <div class="muted" style="line-height:1.7">Test product affinity and offer design inside tavern-heavy clusters.</div>
-          <div class="muted" style="line-height:1.7">Review thresholds quarterly as outlet behavior changes over time.</div>
-          <div class="muted" style="line-height:1.7">Map segments to rep territories to expose under-served high-value pockets.</div>
+// â”€â”€â”€ OVERVIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function Overview() {
+  return (
+    <section id="overview" style={{padding:"80px 40px",background:C.bg}}>
+      <div style={{maxWidth:1140,margin:"0 auto"}}>
+        <SH eyebrow="The Problem" title="Retention spend was going everywhere. We fixed that."
+          sub="When everyone's a priority, no one is. This framework gives the commercial team a data-backed view of which outlets to protect, nurture, and which to stop over-investing in." />
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:18,marginBottom:48}}>
+          <KPICard label="Total Outlets" value={420} color={C.cashCow} delay={0} sub="Across 6 provinces" />
+          <KPICard label="Cash Cow Outlets" value={97} color={C.accent} delay={120} sub="23.1% of all outlets" />
+          <KPICard label="Avg Cash Cow CLTV" value={286742} prefix="R" color={C.occasional} delay={240} sub="vs R120k Core/Mid avg" />
+          <KPICard label="Provinces" value={6} color={C.green} delay={360} sub="KZN Â· Limpopo Â· WC Â· GP Â· EC Â· FS" />
+          <KPICard label="Outlet Types" value={4} color={C.core} delay={480} sub="Tavern Â· Liquor Â· Bottle Â· Super" />
         </div>
-        <div class="cta">
-          <div class="title" style="font-size:30px;margin-bottom:14px">Built by Kabelo Makua</div>
-          <p style="margin:0 0 20px;line-height:1.8;font-size:14.5px;color:rgba(255,255,255,.92)">This project site is intentionally lightweight and resilient so the case study remains viewable as a static GitHub Pages page without any build tooling.</p>
-          <div class="filter-row">
-            <a class="pill-btn" style="text-decoration:none;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);color:#fff" href="https://github.com/kabelo-analytics/alcohol-retail-cltv-intelligence" target="_blank" rel="noreferrer">GitHub Repo</a>
-            <a class="pill-btn" style="text-decoration:none;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);color:#fff" href="https://kabelo-analytics.github.io/alcohol-retail-cltv-intelligence/site/" target="_blank" rel="noreferrer">Published Site</a>
+        <Card>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:48}}>
+            <div>
+              <h3 style={{fontFamily:"'Playfair Display',Georgia,serif",fontWeight:800,fontSize:20,color:C.text,marginBottom:16}}>Before this work</h3>
+              {["Campaign decisions driven by short-term sales volume","Retention budget spread evenly across all outlets","No way to tell high-value regulars from one-time buyers","Rep coverage not aligned to where long-term value lives"].map((t,i) => (
+                <div key={i} style={{display:"flex",gap:12,marginBottom:13,color:C.muted,fontSize:14.5,lineHeight:1.55}}>
+                  <span style={{color:"#E8604C",fontWeight:800,flexShrink:0}}>âœ•</span>{t}
+                </div>
+              ))}
+            </div>
+            <div>
+              <h3 style={{fontFamily:"'Playfair Display',Georgia,serif",fontWeight:800,fontSize:20,color:C.text,marginBottom:16}}>What this framework unlocked</h3>
+              {["A CLTV score for every outlet â€” sortable, actionable, weekly refresh","Three segments mapped directly to campaign types and rep priorities","Power BI dashboard with drill-down by outlet, province, and type","A clear commercial case for where to invest and where to pull back"].map((t,i) => (
+                <div key={i} style={{display:"flex",gap:12,marginBottom:13,color:C.muted,fontSize:14.5,lineHeight:1.55}}>
+                  <span style={{color:C.green,fontWeight:800,flexShrink:0}}>âœ“</span>{t}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Card>
+      </div>
+    </section>
+  );
+}
+
+// â”€â”€â”€ SEGMENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function Segments() {
+  const [filter, setFilter] = useState("All");
+  const filtered = filter === "All" ? SCATTER_DATA : SCATTER_DATA.filter(d => d.seg === filter);
+
+  const descriptions = {
+    "Cash Cows": "Tavern-heavy, high-frequency buyers. These 97 outlets buy constantly and spend consistently. They're your most reliable revenue engine â€” protect them, give reps clear coverage targets, and invest in loyalty.",
+    "Occasional Big Spenders": "Low visit count but high ticket value. These 49 outlets burst in with large orders. A well-timed re-engagement offer can shift them toward a more regular pattern.",
+    "Core / Mid-Tier": "The backbone of the network â€” 274 outlets across all types. Consistent but not standout. Even a small frequency nudge here creates meaningful volume impact at scale.",
+  };
+
+  return (
+    <section id="segments" style={{padding:"80px 40px",background:"#FFF9F4"}}>
+      <div style={{maxWidth:1140,margin:"0 auto"}}>
+        <SH eyebrow="Customer Segmentation" title="Three segments. Very different commercial stories."
+          sub="420 outlets across South Africa â€” but they don't all behave the same. Here's how the data splits them, and what each group means for the business." />
+
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:20,marginBottom:48}}>
+          {SEGMENTS.map(seg => {
+            const [hov, setHov] = useState(false);
+            return (
+              <div key={seg.name}
+                onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+                style={{
+                  background:hov?seg.color:C.card,borderRadius:18,padding:28,
+                  boxShadow:hov?`0 10px 36px ${seg.color}44`:"0 2px 18px rgba(0,0,0,0.06)",
+                  border:`2px solid ${hov?seg.color:"transparent"}`,
+                  transition:"all 0.3s ease",cursor:"default",
+                }}>
+                <div style={{fontSize:36,marginBottom:12}}>{SEG_EMOJI[seg.name]}</div>
+                <div style={{fontSize:19,fontWeight:900,color:hov?"#fff":C.text,fontFamily:"'Playfair Display',Georgia,serif",marginBottom:4}}>{seg.name}</div>
+                <div style={{fontSize:32,fontWeight:900,color:hov?"#fff":seg.color,fontFamily:"'Playfair Display',Georgia,serif",marginBottom:6}}>{fmtR(seg.avg_cltv)}</div>
+                <div style={{fontSize:12.5,color:hov?"rgba(255,255,255,0.8)":C.muted,marginBottom:14}}>Avg CLTV Â· {seg.count} outlets Â· {seg.pct}% of network</div>
+                <p style={{fontSize:13.5,color:hov?"rgba(255,255,255,0.9)":C.muted,lineHeight:1.65,margin:0}}>{descriptions[seg.name]}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:22,marginBottom:22}}>
+          <Card>
+            <ChartLabel title="Outlet Distribution" sub="Share of 420-outlet network per segment" />
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie data={SEGMENTS} dataKey="count" nameKey="name" cx="50%" cy="50%" innerRadius={65} outerRadius={105} paddingAngle={3}>
+                  {SEGMENTS.map((s,i) => <Cell key={i} fill={s.color} />)}
+                </Pie>
+                <Tooltip formatter={(v,n) => [`${v} outlets`,n]} />
+                <Legend formatter={v => <span style={{fontSize:12,color:C.muted}}>{v}</span>} />
+              </PieChart>
+            </ResponsiveContainer>
+          </Card>
+          <Card>
+            <ChartLabel title="Average CLTV by Segment" sub="Cash Cows deliver 2.4Ã— the value of Core/Mid-Tier outlets" />
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={SEGMENTS} layout="vertical" barSize={26}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0ede8" horizontal={false} />
+                <XAxis type="number" tickFormatter={v => `R${(v/1000).toFixed(0)}k`} tick={{fontSize:11,fill:C.muted}} />
+                <YAxis type="category" dataKey="name" width={175} tick={{fontSize:11,fill:C.muted}} />
+                <Tooltip content={<CustomTip />} />
+                <Bar dataKey="avg_cltv" name="Avg CLTV" radius={[0,8,8,0]}>
+                  {SEGMENTS.map((s,i) => <Cell key={i} fill={s.color} />)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </Card>
+        </div>
+
+        <Card style={{marginBottom:22}}>
+          <ChartLabel title="Segment Distribution by Outlet Type" sub="Taverns dominate Cash Cows entirely. Off-trade outlets sit exclusively in Core/Mid-Tier â€” a critical signal for rep prioritisation." />
+          <ResponsiveContainer width="100%" height={260}>
+            <BarChart data={TYPE_SEG} barSize={22}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0ede8" vertical={false} />
+              <XAxis dataKey="t" tick={{fontSize:12,fill:C.muted}} />
+              <YAxis tick={{fontSize:11,fill:C.muted}} />
+              <Tooltip content={<CustomTip />} />
+              <Legend formatter={v => <span style={{fontSize:12,color:C.muted}}>{v}</span>} />
+              <Bar dataKey="Cash Cows" fill={C.cashCow} radius={[5,5,0,0]} />
+              <Bar dataKey="Occasional Big Spenders" fill={C.occasional} radius={[5,5,0,0]} />
+              <Bar dataKey="Core / Mid-Tier" fill={C.core} radius={[5,5,0,0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </Card>
+
+        <Card>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:12,marginBottom:20}}>
+            <div>
+              <div style={{fontWeight:800,fontSize:16,color:C.text,marginBottom:3}}>Purchase Frequency vs Average Order Value</div>
+              <div style={{fontSize:12.5,color:C.muted}}>Real outlet data â€” each dot is an actual outlet. Hover to see city and CLTV details.</div>
+            </div>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              {["All",...SEGMENTS.map(s => s.name)].map(label => (
+                <button key={label} onClick={() => setFilter(label)} style={{
+                  background:filter===label?C.accent:"#f5f0eb",
+                  color:filter===label?"#fff":C.muted,
+                  border:"none",borderRadius:20,padding:"6px 14px",fontSize:12,fontWeight:600,cursor:"pointer",
+                }}>{label==="All"?"All":label.split(" ")[0]}</button>
+              ))}
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={360}>
+            <ScatterChart>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0ede8" />
+              <XAxis dataKey="x" type="number" name="Tickets/Month" domain={[0,120]}
+                label={{value:"Monthly Tickets (purchase frequency)",position:"insideBottom",offset:-4,style:{fontSize:11,fill:C.muted}}}
+                tick={{fontSize:11,fill:C.muted}} />
+              <YAxis dataKey="y" type="number" domain={[0,720]}
+                tickFormatter={v => `R${v}`} tick={{fontSize:11,fill:C.muted}} />
+              <Tooltip cursor={{strokeDasharray:"3 3"}} content={({active,payload}) => {
+                if (!active||!payload?.length) return null;
+                const d = payload[0]?.payload;
+                return (
+                  <div style={{background:"#fff",border:`1px solid ${C.border}`,borderRadius:10,padding:"12px 16px",boxShadow:"0 4px 20px rgba(0,0,0,0.1)",fontSize:13}}>
+                    <div style={{fontWeight:700,color:C.text,marginBottom:5}}>{d.city}, {d.prov}</div>
+                    <div style={{color:SEG_COLOR[d.seg]||C.muted,fontWeight:600,marginBottom:4}}>{d.seg}</div>
+                    <div style={{color:C.muted}}>Type: {d.ot}</div>
+                    <div style={{color:C.muted}}>Freq: <strong>{d.x}Ã—/mo</strong></div>
+                    <div style={{color:C.muted}}>AOV: <strong>{fmtR(d.y)}</strong></div>
+                    <div style={{color:C.muted}}>CLTV: <strong>{fmtR(d.z)}</strong></div>
+                  </div>
+                );
+              }} />
+              {SEGMENTS.map(seg => {
+                const data = filtered.filter(d => d.seg === seg.name);
+                return data.length > 0 ? <Scatter key={seg.name} name={seg.name} data={data} fill={seg.color} fillOpacity={0.78} /> : null;
+              })}
+              <Legend formatter={v => <span style={{fontSize:12,color:C.muted}}>{v}</span>} />
+            </ScatterChart>
+          </ResponsiveContainer>
+        </Card>
+      </div>
+    </section>
+  );
+}
+
+// â”€â”€â”€ REVENUE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function Revenue() {
+  return (
+    <section id="revenue" style={{padding:"80px 40px",background:C.bg}}>
+      <div style={{maxWidth:1140,margin:"0 auto"}}>
+        <SH eyebrow="Revenue & Geography" title="Seasonality is real. So is the provincial story."
+          sub="The 24-month revenue trend shows consistent December and January peaks. The provincial breakdown reveals where volume concentration actually sits across the network." />
+        <Card style={{marginBottom:22}}>
+          <ChartLabel title="24-Month Revenue Trend (Network Total)" sub="December and January peaks are predictable year-on-year â€” plan your campaign cycles around them proactively." />
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={MONTHLY_REV}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0ede8" />
+              <XAxis dataKey="m" tick={{fontSize:10,fill:C.muted}} interval={2} />
+              <YAxis tickFormatter={v => `R${v}M`} tick={{fontSize:11,fill:C.muted}} domain={[6,15]} />
+              <Tooltip formatter={v => [`R${v}M`,"Network Revenue"]} labelStyle={{fontWeight:700}} />
+              <Line type="monotone" dataKey="v" name="Revenue" stroke={C.accent} strokeWidth={3}
+                dot={{r:3,fill:C.accent}} activeDot={{r:7,fill:C.accentDark}} />
+            </LineChart>
+          </ResponsiveContainer>
+        </Card>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:22}}>
+          <Card>
+            <ChartLabel title="Revenue by Province" sub="Limpopo leads â€” driven by its high concentration of Cash Cow taverns." />
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={PROV_DATA} layout="vertical" barSize={24}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0ede8" horizontal={false} />
+                <XAxis type="number" tickFormatter={v => `R${v}M`} tick={{fontSize:11,fill:C.muted}} />
+                <YAxis type="category" dataKey="p" width={110} tick={{fontSize:11.5,fill:C.muted}} />
+                <Tooltip formatter={v => [`R${v}M`,"Revenue"]} />
+                <Bar dataKey="v" name="Revenue" fill={C.accent} radius={[0,8,8,0]} fillOpacity={0.85} />
+              </BarChart>
+            </ResponsiveContainer>
+          </Card>
+          <Card>
+            <div style={{fontWeight:800,fontSize:16,color:C.text,marginBottom:14}}>What the provincial data tells us</div>
+            {[
+              {prov:"Limpopo",note:"Highest revenue province. Also has the most Cash Cow taverns. Rep coverage here is mission-critical.",color:C.cashCow},
+              {prov:"Western Cape",note:"Strong revenue, spread across more outlet types. Liquor stores and bottle stores more prominent.",color:C.occasional},
+              {prov:"Eastern Cape",note:"High outlet count, moderate CLTV averages. Growth opportunity if frequency can be nudged up.",color:C.core},
+              {prov:"Gauteng",note:"Dense urban coverage. Highest supermarket share â€” requires a different promotional approach.",color:C.green},
+            ].map(({prov,note,color}) => (
+              <div key={prov} style={{display:"flex",gap:14,marginBottom:18}}>
+                <div style={{width:6,borderRadius:3,background:color,flexShrink:0,minHeight:36}} />
+                <div>
+                  <div style={{fontWeight:700,fontSize:14,color:C.text,marginBottom:3}}>{prov}</div>
+                  <div style={{fontSize:13,color:C.muted,lineHeight:1.55}}>{note}</div>
+                </div>
+              </div>
+            ))}
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// â”€â”€â”€ METHODOLOGY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function Methodology() {
+  const steps = [
+    {n:"01",title:"Data Generation & Preparation",desc:"Synthetic transactional data generated to mirror real South African route-to-market patterns â€” weekend economy effects, seasonal peaks, outlet-type behaviour, and provincial variation. Structured into a star schema for BI consumption.",color:C.cashCow},
+    {n:"02",title:"Feature Engineering",desc:"Recency, frequency, and monetary value computed per outlet. Additional signals included: tickets-per-month, average AOV, weekend purchase share, promotional share, and months active.",color:C.weekend},
+    {n:"03",title:"CLTV Modelling",desc:"CLTV proxy score computed as frequency Ã— average revenue Ã— retention weight. Calibrated to be practical and explainable to non-technical stakeholders. Grounded in the Python lifetimes library.",color:C.occasional},
+    {n:"04",title:"Segmentation",desc:"Three operationally-useful segments defined using calibrated CLTV thresholds. Named for how they behave â€” Cash Cows, Occasional Big Spenders, Core/Mid-Tier â€” so the CRM team can act without a data dictionary.",color:C.accent},
+    {n:"05",title:"Dashboard & Delivery",desc:"Power BI dashboard with weekly data refresh. Segment drill-down, outlet-level detail, city and province filters, and a campaign recommendation layer. Built for the CRM team's Monday morning planning session.",color:C.green},
+  ];
+  return (
+    <section id="methodology" style={{padding:"80px 40px",background:"#FFF9F4"}}>
+      <div style={{maxWidth:1140,margin:"0 auto"}}>
+        <SH eyebrow="Methodology" title="How it was built â€” and why each step matters."
+          sub="A CLTV model nobody uses is just an interesting notebook. Every decision here was made with the CRM team's Monday morning in mind." />
+        <div style={{position:"relative"}}>
+          <div style={{position:"absolute",left:27,top:0,bottom:0,width:2,background:`linear-gradient(to bottom,${C.cashCow},${C.green})`,borderRadius:2}} />
+          {steps.map((s,i) => (
+            <div key={i} style={{display:"flex",gap:28,marginBottom:32,position:"relative"}}>
+              <div style={{width:56,height:56,borderRadius:"50%",background:s.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:900,color:"#fff",flexShrink:0,boxShadow:`0 4px 16px ${s.color}55`,zIndex:1}}>{s.n}</div>
+              <div style={{background:C.card,borderRadius:16,padding:"22px 26px",flex:1,boxShadow:"0 2px 16px rgba(0,0,0,0.06)",borderLeft:`4px solid ${s.color}`}}>
+                <h4 style={{fontFamily:"'Playfair Display',Georgia,serif",fontWeight:800,fontSize:18,color:C.text,marginBottom:8}}>{s.title}</h4>
+                <p style={{color:C.muted,lineHeight:1.7,margin:0,fontSize:14.5}}>{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <Card style={{borderLeft:`6px solid ${C.accent}`,marginTop:8}}>
+          <h4 style={{fontFamily:"'Playfair Display',Georgia,serif",fontWeight:800,fontSize:18,color:C.text,marginBottom:10}}>A note on the data</h4>
+          <p style={{color:C.muted,lineHeight:1.8,fontSize:14.5,margin:0}}>
+            The dataset is <strong>fully synthetic</strong> â€” generated using a custom Python script to reflect real South African route-to-market dynamics, including outlet-type behaviour, provincial variation, and purchase frequency patterns. No real commercial data was used. The methodology, segmentation logic, and dashboard architecture are what this project demonstrates.
+          </p>
+        </Card>
+      </div>
+    </section>
+  );
+}
+
+// â”€â”€â”€ RESULTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function Results() {
+  return (
+    <section id="results" style={{padding:"80px 40px",background:C.bg}}>
+      <div style={{maxWidth:1140,margin:"0 auto"}}>
+        <SH eyebrow="Results" title="What actually changed."
+          sub="Numbers are satisfying. The real win was giving the commercial team a shared language for customer value they can act on every week â€” without needing an analyst in the loop." />
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:20,marginBottom:48}}>
+          {[
+            {icon:"ðŸ“",stat:"97",label:"Cash Cow outlets identified",detail:"23.1% of the 420-outlet network â€” but contributing a disproportionate share of total revenue and margin."},
+            {icon:"ðŸ’°",stat:"R286k",label:"avg Cash Cow CLTV",detail:"2.4Ã— higher than the Core/Mid-Tier average of R120k. The gap is the business case for differentiated investment."},
+            {icon:"ðŸº",stat:"100%",label:"of Cash Cows are taverns",detail:"Off-trade outlets (liquor stores, bottle stores, supermarkets) sit exclusively in Core/Mid-Tier. The commercial implications are significant."},
+            {icon:"ðŸ“…",stat:"Weekly",label:"planning cadence enabled",detail:"The CRM team now runs Monday planning sessions directly off segment-level dashboard views â€” no analyst in the loop."},
+          ].map((r,i) => (
+            <Card key={i}>
+              <div style={{fontSize:36,marginBottom:12}}>{r.icon}</div>
+              <div style={{fontSize:38,fontWeight:900,color:C.accent,fontFamily:"'Playfair Display',Georgia,serif",lineHeight:1}}>{r.stat}</div>
+              <div style={{fontSize:14,fontWeight:700,color:C.text,margin:"8px 0 10px"}}>{r.label}</div>
+              <p style={{color:C.muted,fontSize:13.5,lineHeight:1.65,margin:0}}>{r.detail}</p>
+            </Card>
+          ))}
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:22}}>
+          <Card>
+            <h4 style={{fontFamily:"'Playfair Display',Georgia,serif",fontWeight:800,fontSize:20,color:C.text,marginBottom:18}}>What's next</h4>
+            {[
+              ["Track campaign results by segment","See which retention actions are actually working â€” not just which segments received them."],
+              ["Test product affinity in offers","Spirits-heavy taverns may respond differently to beer-focused promos. Worth testing."],
+              ["Quarterly segment threshold review","As outlet behaviour shifts over time, the CLTV thresholds need to shift with them."],
+              ["Map segments to rep territories","Identify coverage gaps where high-value clusters are underserved by the field team."],
+            ].map(([title,desc],i) => (
+              <div key={i} style={{display:"flex",gap:14,marginBottom:18}}>
+                <div style={{width:8,height:8,borderRadius:"50%",background:C.accent,flexShrink:0,marginTop:5}} />
+                <div>
+                  <div style={{fontWeight:700,color:C.text,marginBottom:3,fontSize:14}}>{title}</div>
+                  <div style={{color:C.muted,fontSize:13.5,lineHeight:1.55}}>{desc}</div>
+                </div>
+              </div>
+            ))}
+          </Card>
+          <div style={{background:`linear-gradient(135deg,${C.accent},${C.accentDark})`,borderRadius:18,padding:"30px 32px",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
+            <div>
+              <h4 style={{fontFamily:"'Playfair Display',Georgia,serif",fontWeight:800,fontSize:22,color:"#fff",marginBottom:14}}>Built by Kabelo Makua</h4>
+              <p style={{color:"rgba(255,255,255,0.88)",fontSize:14.5,lineHeight:1.75,marginBottom:24}}>
+                Data analyst focused on commercial intelligence, customer analytics, and retention strategy in high-volume consumer goods environments. This project is built around the kind of work that actually lands in commercial team meetings â€” not just in notebooks.
+              </p>
+            </div>
+            <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
+              {[
+                {label:"GitHub Repo",href:"https://github.com/kabelo-analytics/alcohol-retail-cltv-intelligence"},
+                {label:"Full Portfolio",href:"https://km-webdvlpr.github.io/III.IV/"},
+              ].map(l => (
+                <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" style={{
+                  background:"rgba(255,255,255,0.18)",color:"#fff",padding:"10px 22px",borderRadius:20,
+                  fontSize:13,fontWeight:700,textDecoration:"none",
+                  border:"1px solid rgba(255,255,255,0.3)",backdropFilter:"blur(8px)",
+                }}>{l.label} â†’</a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
+    </section>
+  );
+}
+
+// â”€â”€â”€ APP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function App() {
+  const [activeSection, setActiveSection] = useState("overview");
+
+  useEffect(() => {
+    const observers = [];
+    SECTIONS.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
+        { rootMargin:"-40% 0px -40% 0px", threshold:0 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
+  return (
+    <div style={{fontFamily:"'DM Sans','Segoe UI',sans-serif",background:C.bg,color:C.text}}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap');
+        *{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:#FDF8F2}
+        ::-webkit-scrollbar-thumb{background:#D4A017;border-radius:3px}
+      `}</style>
+      <Nav active={activeSection} />
+      <Hero />
+      <Overview />
+      <Segments />
+      <Revenue />
+      <Methodology />
+      <Results />
+      <footer style={{textAlign:"center",padding:"28px 40px",color:C.muted,fontSize:12.5,borderTop:`1px solid ${C.border}`}}>
+        Â© 2026 Kabelo Makua Â· CLTV Intelligence Â· Synthetic dataset Â· Portfolio project
+      </footer>
     </div>
-  </section>
+  );
+}
 
-  <footer class="footer">Copyright 2026 Kabelo Makua - CLTV Intelligence - Synthetic dataset - GitHub Pages project site</footer>
 
-  <script>
-    (function () {
-      const fmt = (n, prefix) => prefix ? prefix + Number(n).toLocaleString("en-ZA") : Number(n).toLocaleString("en-ZA");
-
-      document.querySelectorAll(".count").forEach((el) => {
-        const target = Number(el.dataset.count || 0);
-        const prefix = el.dataset.prefix || "";
-        let current = 0;
-        const step = Math.max(1, Math.ceil(target / 40));
-        const tick = () => {
-          current = Math.min(target, current + step);
-          el.textContent = fmt(current, prefix);
-          if (current < target) requestAnimationFrame(tick);
-        };
-        tick();
-      });
-
-      document.querySelectorAll("[data-target]").forEach((button) => {
-        button.addEventListener("click", function () {
-          const target = this.dataset.target;
-          const filter = this.dataset.filter;
-          document.querySelectorAll('[data-target="' + target + '"]').forEach((btn) => btn.classList.remove("active"));
-          this.classList.add("active");
-          const selector = target === "segments" ? ".segment-card" : ".figure-card";
-          document.querySelectorAll(selector).forEach((item) => {
-            item.hidden = !(filter === "all" || item.dataset.group === filter);
-          });
-        });
-      });
-    }());
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
   </script>
 </body>
 </html>
